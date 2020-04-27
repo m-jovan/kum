@@ -8,7 +8,7 @@ echo 2. Merge develop into master
 echo 3. Pull master
 echo 4. Checkout
 
-read command1
+read command1 command2
 
 COMMAND=$command1
 
@@ -21,7 +21,8 @@ do
     [ $(echo $?) -eq 0 ] && echo "Updating ${dir%*/}..." && git fetch && git pull
   elif [ $command1 == "2" ]
   then
-    [ $(echo $?) -eq 0 ] && echo "Merging ${dir%*/}..." && git fetch && git pull && git checkout master && git merge develop && git checkout develop
+    tagname="git tag $command2"
+    [ $(echo $?) -eq 0 ] && echo "Merging ${dir%*/}..." && git fetch && git pull && git checkout master && git merge develop && $tagname && git push origin --tags && git checkout develop
   elif [ $command1 == "3" ]
   then
     [ $(echo $?) -eq 0 ] && echo "Updating ${dir%*/}..." && git checkout master && git fetch && git pull
